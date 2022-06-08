@@ -1,0 +1,9 @@
+---
+# Variables Wordpress
+wp_mysql_db: database_arnid
+wp_mysql_user: username_arnid
+wp_mysql_password: Agvacate#60
+app_user: www-data
+http_hostdir: wordpress
+http_host: wordpressubuntu.asirmandaprueba.tk
+http_conf: wordpressubuntu.asirmandaprueba.tk.conf

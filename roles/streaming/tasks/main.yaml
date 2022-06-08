@@ -1,0 +1,39 @@
+---
+  - name: Actualizar Sistema
+    apt: name="*" state=latest
+
+  - name: Instalar librerias y herramientas para nginx
+    command: sudo apt install build-essential libpcre3 libpcre3-dev libssl-dev zlib1g-dev zlib1g -y
+    register: mymotd
+
+  - name: Obtencion y descompresion del fichero que contiene nginx
+    become: yes
+    unarchive:
+      src: "http://nginx.org/download/nginx-1.15.1.tar.gz"
+      dest: "/home/Carlos"
+      mode: 0755
+      remote_src: yes
+
+  - name: Obtencion y Descompresion segundo fichero contiene modulo rtmp
+    become: yes
+    shell: |
+        sudo apt install unzip -y
+        wget https://github.com/sergey-dryabzhinsky/nginx-rtmp-module/archive/dev.zip
+        unzip dev.zip
+
+  - name: Montaje de NGINX
+    shell: |
+       cd nginx-1.15.1
+       ./configure --with-http_ssl_module --add-module=../nginx-rtmp-module-dev
+       make
+       sudo make install
+
+  - name: Editar fichero de configuracion nginx
+    become: yes
+    copy: src=nginx.conf dest=/usr/local/nginx/conf mode=0755
+
+  - name: Reinciar servidor
+    shell: |
+       sudo /usr/local/nginx/sbin/nginx 
+       sudo /usr/local/nginx/sbin/nginx -s stop
+       sudo /usr/local/nginx/sbin/nginx 

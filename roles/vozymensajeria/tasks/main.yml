@@ -1,0 +1,13 @@
+---
+# tasks file for vozymensajeria
+- name: Configuración
+  copy: src=sip.conf dest=/etc/asterisk/sip.conf
+  become: yes
+
+- name: Configuración
+  copy: src=extensions.conf dest=/etc/asterisk/extensions.conf
+  become: yes
+
+- name: reinicio del servidor
+  service: name=asterisk state=restarted
+  become: yes

@@ -1,0 +1,22 @@
+<VirtualHost *:80>
+  ServerAdmin admin@asirmandaprueba.tk
+  ServerName {{ http_host }}
+  DocumentRoot /var/www/{{ http_hostdir }}
+
+#  ErrorLog ${APACHE_LOG}/error.log
+#  CustomLog ${APACHE_LOG}/access.log combined
+
+    <Directory /var/www/{{ http_hostdir }}>
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+Alias /.well-known/acme-challenge /var/lib/dehydrated/acme-challenges
+<Directory /var/lib/dehydrated/acme-challenges>
+	Options None
+	AllowOverride None
+	Require all granted
+</Directory>
+
+</VirtualHost>

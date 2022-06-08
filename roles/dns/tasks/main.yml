@@ -1,0 +1,18 @@
+---
+ - name: Actualizar sistema Debian
+   apt: name="*" state=latest
+
+ - name: Instalacion DNS en ultima version
+   apt: name=bind9 state=latest
+
+ - name: Ejecuta BIND9
+   service: name=bind9 state=started enabled=yes
+
+ - name: Añadimos ficheros de configuracion
+   copy: src=db.arnid.tk dest=/etc/bind/
+
+ - name: Añado segundo fichero de configuracion
+   copy: src=named.conf.local dest=/etc/bind/named.conf.local
+
+ - name: Reniciamos servidor BIND
+   service: name=bind9 state=restarted enabled=yes

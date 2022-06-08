@@ -1,0 +1,79 @@
+---
+# Tareas implementar servidor correo postfix-dovecot
+- name: Actualizar cache apt
+  apt: update_cache=yes cache_valid_time=3600
+  become: yes
+
+- name: Instalaccion software basico
+  apt: name={{ item }} state=present
+  become: yes
+  with_items:
+    - curl
+    - net-tools
+    - bash-completion 
+    - wget
+    - lsof
+    - nano
+    - php7.4-curl
+    - php7.4-xml
+
+- name: Configuracion postfix
+  become: yes
+  template:
+        src="main.cf.j2"
+        dest="/etc/postfix/main.cf "
+
+- name: reinicio del servidor  
+  service: name=postfix state=restarted
+  become: yes
+
+- name: configuracion de dovecot
+  copy: src=10-mail.conf dest=/etc/dovecot/conf.d/10-mail.conf
+  become: yes
+
+- name: reinicio del servidor
+  service: name=dovecot state=restarted
+  become: yes
+
+- name: Crear el document root
+  become: yes
+  ansible.builtin.file:
+    path="/var/www/{{ http_hostdir }}"
+    state=directory
+    owner={{ app_user }}
+    mode='0755'
+    group=www-data
+
+- name: Levantar Apache virtualhost
+  become: yes
+  template:
+        src="apache.conf.j2"
+        dest="/etc/apache2/sites-available/{{ http_conf }}"
+
+- name: Descargar Webmail
+  become: yes
+  get_url:
+   url: http://repository.rainloop.net/v2/webmail/rainloop-latest.zip
+   dest: /tmp/rainloop-latest.zip
+
+- name: Extraer webmail
+  become: yes
+  unarchive: src=/tmp/rainloop-latest.zip dest=/var/www/correo   copy=no
+  become: yes
+
+- name: permisos
+  become: yes
+  command: chmod 777 -R /var/www/correo
+
+- name: habilitar nuevo virtualhost
+  become: yes
+  command: a2ensite {{ http_conf }}
+  become: yes
+
+- name: restaurar y recargar apache
+  become: yes
+  service: name=apache2 state=reload
+  service: name=apache2 state=restarted
+  become: yes
+
+

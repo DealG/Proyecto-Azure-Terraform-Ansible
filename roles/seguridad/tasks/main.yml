@@ -1,0 +1,77 @@
+---
+# tareas deshydrated
+
+- name: registrarse en letscript
+  become: yes
+  command: /usr/bin/dehydrated --register --accept-terms
+  become: yes
+
+- name: transferencia de dominios
+  become: yes
+  copy: src=domains.txt dest=/etc/dehydrated/domains.txt
+
+- name: solicitar certificados
+  become: yes
+  command: dehydrated -c
+  become: yes
+
+- name: deshabilitamos http
+  become: yes
+  command: a2dissite {{ http_conf }}
+
+- name: deshabilitamos http
+  become: yes
+  command: a2dissite {{ http2_conf }}
+
+- name: deshabilitamos http
+  become: yes
+  command: a2dissite {{ http3_conf }}
+
+- name: ssl
+  become: yes
+  command: a2enmod ssl
+
+- name: restart apache
+  become: yes
+  service: name=apache2 state=restarted
+  become: yes
+
+- name: Apache virtualhost https
+  become: yes
+  template:
+        src="apache.conf.j2"
+        dest="/etc/apache2/sites-available/{{ https_conf }}"
+
+- name: Apache virtualhost https
+  become: yes
+  template:
+        src="apache2.conf.j2"
+        dest="/etc/apache2/sites-available/{{ https2_conf }}"
+
+- name: Apache virtualhost https
+  become: yes
+  template:
+        src="apache3.conf.j2"
+        dest="/etc/apache2/sites-available/{{ https3_conf }}"
+
+- name: habilitamos
+  become: yes
+  command: a2ensite {{ https_conf }}
+
+- name: habilitamos
+  become: yes
+  command: a2ensite {{ https2_conf }}
+
+- name: habilitamos
+  become: yes
+  command: a2ensite {{ https3_conf }}
+
+- name: Comando
+  become: yes
+  shell: |
+   systemctl reload apache2
+   
+- name: Comando
+  become: yes
+  shell: |
+   systemctl restart apache2

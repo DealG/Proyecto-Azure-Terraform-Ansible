@@ -1,0 +1,45 @@
+---
+# tasks file for server
+- name: Actualizacion repositorios
+  apt: update_cache=yes cache_valid_time=3600
+  become: yes
+
+
+- name: Instalar software necesario
+  apt: name={{ item }} state=present
+  become: yes
+  with_items:
+    - apache2
+    - mariadb-server
+    - php-mysql
+    - php7.4
+    - libapache2-mod-php7.4  
+    - python3-mysqldb
+    - dehydrated
+    - postfix
+    - dovecot-imapd
+    - dovecot-pop3d     
+    - asterisk
+    - zip
+    - unzip
+    - curl
+    - net-tools
+    - bash-completion 
+    - wget
+    - lsof
+    - php7.4-curl
+    - php7.4-gd
+    - php7.4-xml
+    - php-cli
+    - php-fpm
+    - php-json
+    - php-intl
+    - php-imagick
+    - php-pdo
+    - php-zip
+    - php-gd
+    - php-mbstring
+    - php-pear
+    - php-bcmath
+    - php7.4-ssh2
+    - python3-mysqldb

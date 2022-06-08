@@ -1,0 +1,31 @@
+
+---
+    - name: Transferir script de securizacion
+      copy: src=securesql.sh dest=/home/Daniel mode=0777
+
+    - name: Ejecucion securizar base de datos
+      shell: |
+          cd /home/Daniel
+          sudo ./securesql.sh
+
+    - name: Crea nuevo directorio para nextcloud
+      file: path=/var/www/nextcloud state=directory mode=0750 owner=www-data group=www-data
+
+    - name: insertamos fichero php para nextcloud y cambiamos propietario
+      shell: |
+          cd /var/www/nextcloud
+          wget https://download.nextcloud.com/server/installer/setup-nextcloud.php
+          chown www-data:www-data setup-nextcloud.php
+
+    - name: Levantar virtualhost nextcloud apache
+      become: yes
+      template:
+        src="apache3.conf.j2"
+        dest="/etc/apache2/sites-available/{{ http3_conf }}"
+
+    - name: habilitar nuevo virtualhost
+      command: a2ensite {{ http3_conf }}
+      become: yes
+
+    - name: Reinciamos apache
+      service: name=apache2 state=restarted

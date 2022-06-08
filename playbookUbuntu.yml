@@ -1,0 +1,13 @@
+---
+- name: Ejecutar roles
+  hosts: all
+  gather_facts: True
+  become: yes
+  roles:
+   - server
+   - mysql
+   - wordpress
+   - correo
+   - vozymensajeria
+   - nextcloud
+   - seguridad

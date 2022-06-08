@@ -1,0 +1,5 @@
+---
+# defaults file for mysql
+wp_mysql_db: database_arnid
+wp_mysql_user: username_arnid
+wp_mysql_password: Agvacate#60

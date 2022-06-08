@@ -1,0 +1,8 @@
+---
+# Variables por defecto para correo
+app_user: www-data
+
+http_hostdir: correo
+
+http_host: correoubuntu.asirmandaprueba.tk
+http_conf: correoubuntu.asirmandaprueba.tk.conf

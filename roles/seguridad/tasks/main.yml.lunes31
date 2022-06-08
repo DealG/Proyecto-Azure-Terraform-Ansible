@@ -1,0 +1,13 @@
+---
+# tareas deshydrated
+
+- name: registrarse en letscript
+  command: /usr/bin/dehydrated --register --accept-terms
+  become: yes
+
+- name: transferencia de dominios
+  copy: src=domains.txt dest=/etc/dehydrated/domains.txt
+
+- name: deshabilitar hosts por defecto
+  command: a2dissite 000-default.conf
+  become: yes

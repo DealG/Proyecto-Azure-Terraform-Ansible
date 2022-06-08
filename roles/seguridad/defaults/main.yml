@@ -1,0 +1,18 @@
+---
+# variables seguridad seguridad
+http_conf: wordpressubuntu.asirmandaprueba.tk.conf
+http2_conf: correoubuntu.asirmandaprueba.tk.conf
+http3_conf: nextcloudubuntu.asirmandaprueba.tk.conf
+
+https_hostdir1: wordpress
+https_host1: wordpressubuntu.asirmandaprueba.tk
+https_conf: wordpressubuntu.asirmandaprueba.tk.conf
+
+https_hostdir2: correo
+https_host2: correoubuntu.asirmandaprueba.tk
+https2_conf: correoubuntu.asirmandaprueba.tk.conf
+
+
+https_hostdir3: nextcloud
+https_host3: nextcloudubuntu.asirmandaprueba.tk
+https3_conf: nextcloudubuntu.asirmandaprueba.tk.conf

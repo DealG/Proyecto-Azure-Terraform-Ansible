@@ -1,0 +1,4 @@
+---
+http3_hostdir: nextcloud
+http3_host: nextcloudubuntu.asirmandaprueba.tk
+http3_conf: nextcloudubuntu.asirmandaprueba.tk.conf

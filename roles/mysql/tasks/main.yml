@@ -1,0 +1,20 @@
+---
+# tareas para mysql
+- name: Crear base de datos wordpress
+  become: yes
+  mysql_db: name={{ wp_mysql_db }} state=present
+  
+- name: Crear usuario de base de datos
+  become: yes 
+  mysql_user: 
+    name={{ wp_mysql_user }} 
+    password={{ wp_mysql_password }} 
+    priv=*.*:ALL
+
+- name: Crear base de datos nextcloud
+  become: yes
+  mysql_db: name=nextcloud state=present collation=utf8_general_ci
+
+- name: Crear usuario de base de datos
+  become: yes
+  mysql_user: name=nextcloud password=nextcloud priv=*.*:ALL host=localhost

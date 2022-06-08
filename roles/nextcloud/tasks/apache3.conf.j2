@@ -1,0 +1,30 @@
+<VirtualHost *:80>
+  ServerAdmin admin@asirmandaprueba.tk
+  ServerName {{ http3_host }}
+  DocumentRoot /var/www/{{ http3_hostdir }}
+
+    alias /nextcloud "/var/www/nextcloud"
+    <Directory /var/www/{{ http3_hostdir }}>
+        DirectoryIndex setup-nextcloud.php
+        Options FollowSymLinks
+        AllowOverride All
+        Require all granted
+
+        SetEnv HOME /var/www/nextcloud
+
+        SetEnv HTTP_HOME /var/www/nextcloud
+
+             <IfModule mod_dac.c>
+                 Dav off
+               </Ifmodule>
+ 
+    </Directory>
+
+Alias /.well-known/acme-challenge /var/lib/dehydrated/acme-challenges
+<Directory /var/lib/dehydrated/acme-challenges>
+	Options None
+	AllowOverride None
+	Require all granted
+</Directory>
+
+</VirtualHost>

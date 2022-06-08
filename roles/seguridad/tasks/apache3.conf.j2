@@ -1,0 +1,30 @@
+<IfModule mod_ssl.c>        
+	<VirtualHost *:443>
+             ServerAdmin admin@asirmandaprueba.tk
+             ServerName {{ https_host3 }}
+             DocumentRoot /var/www/{{ https_hostdir3 }}
+
+
+    <Directory /var/www/{{ https_hostdir3 }}>
+         DirectoryIndex setup-nextcloud.php
+         Options FollowSymLinks
+         AllowOverride All
+         Require all granted
+
+        SetEnv HOME /var/www/nextcloud
+
+        SetEnv HTTP_HOME /var/www/nextcloud
+
+             <IfModule mod_dac.c>
+                 Dav off
+               </Ifmodule>
+    </Directory>
+
+	ErrorLog /var/log/apache2/{{ https_hostdir3 }}.error.log
+	CustomLog /var/log/apache2/{{ https_hostdir3 }}.access.log combined
+
+	SSLEngine on                
+	SSLCertificateFile    /var/lib/dehydrated/certs/{{ https_host3 }}/fullchain.pem                
+	SSLCertificateKeyFile /var/lib/dehydrated/certs/{{ https_host3 }}/privkey.pem
+
+</VirtualHost>
