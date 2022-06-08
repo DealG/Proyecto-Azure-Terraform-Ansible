@@ -4,6 +4,6 @@
   become: yes
   gather_facts: True
   roles:
-   #- zabbix
-   #- streaming
+   - zabbix
+   - streaming
    - dns
